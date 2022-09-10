@@ -1,0 +1,15 @@
+{
+    "background_color": "white",
+    "description": "build for meow1 with love",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "img/icon512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "name": "Meow1 FIP",
+    "short_name": "Meow1",
+    "start_url": "/index.html"
+  }
