@@ -1,4 +1,5 @@
 var lblPosition = document.getElementById("lblPosition");
+var imgPosition  = document.getElementById("imgPosition");
 var now = new Date();
 var start = new Date(now.getFullYear(), 0, 0);
 var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
@@ -6,6 +7,7 @@ var oneDay = 1000 * 60 * 60 * 24;
 var dayOfYear = Math.floor(diff / oneDay);
 var position = (dayOfYear % 6) + 1;
 lblPosition.textContent = position;
+imgPosition.src = "./img/" + position + ".jpg";
 
 var lblDayOf = document.getElementById("lblDayOf");
 var dateStart = dayjs('2022-08-15');
