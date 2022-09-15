@@ -34,6 +34,7 @@ var dayOf = today.diff(dateStart, 'day') + 1;
 lblDayOf.textContent = dayOf;
 
 var txtWeight = document.getElementById("txtWeight");
+var txtInjectTime = document.getElementById("txtInjectTime");
 var lblResult = document.getElementById("lblResult");
 txtWeight.onkeyup = function (e) {
     if (txtWeight.value.length != 0) {
@@ -47,21 +48,31 @@ txtWeight.onkeyup = function (e) {
 var btnInject = document.getElementById("btnInject");
 var lblLastInject = document.getElementById("lblLastInject");
 var lblNextInject = document.getElementById("lblNextInject");
-
 btnInject.onclick = async function () {
+    txtInjectTime.value = dayjs().format("HH:mm");
+
     if (txtWeight.value.length == 0) {
         alert('ใส่น้ำหนัก ม.เหมียว ก่อนนะ !!!');
     } else {
-        if (confirm('Do you want to Log [ Day: ' + dayOf + ', Time: ' + dayjs().format("DD/MMM/YYYY hh:mm") + ' ]')) {
-            await setDoc(doc(db, "inject-record", dayOf.toString()), {
-                day: dayOf,
-                time: new Date(),
-                weight: parseFloat(txtWeight.value)
-            });
-
-            getLastInject();
-        }
+        mdConfirmInject.show();
+        lblModalConfirmMsg.textContent = 'Do you want to Log [ Day: ' + dayOf + ' ]'
     }
+};
+
+var mdConfirmInject = new bootstrap.Modal(document.getElementById('mdConfirmInject'), {
+    keyboard: false
+  });
+var lblModalConfirmMsg = document.getElementById("lblModalConfirmMsg");
+var btnSaveInjectInfo = document.getElementById("btnSaveInjectInfo");
+btnSaveInjectInfo.onclick = async function () {
+    await setDoc(doc(db, "inject-record", dayOf.toString()), {
+        day: dayOf,
+        time: new Date(),
+        weight: parseFloat(txtWeight.value)
+    });
+
+    mdConfirmInject.hide();
+    getLastInject();
 };
 
 async function getLastInject() {
@@ -84,7 +95,7 @@ async function getNextInject(lastInject) {
     lblNextInject.textContent = dayjs(minDateTime).format("DD/MMM/YYYY HH:mm")
         + ' - ' + dayjs(maxDateTime).format("HH:mm");
 
-    if (dayjs().isBefore(maxDateTime) && dayjs().isAfter(minDateTime)){
+    if (dayjs().isBefore(maxDateTime) && dayjs().isAfter(minDateTime)) {
         lblNextInject.classList.add("bg-success");
         lblNextInject.classList.remove("bg-danger");
 
