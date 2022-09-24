@@ -1,0 +1,42 @@
+.progress {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    background: none;
+    border: 0;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+  .progress progress {
+    position: relative;
+    display: block;
+    height: 20px;
+    width: 100%;
+    border: 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+  }
+  .progress ::-moz-progress-bar {
+    background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+  .progress ::-webkit-progress-bar {
+    background-color: transparent;
+  }
+  .progress ::-webkit-progress-value {
+    background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+  .progress .animal {
+    position: absolute;
+    display: block;
+    top: -1.8rem;
+    left: calc(var(--move) - 2.3rem);
+    transform: scaleX(-1);
+    font-size: 4rem;
+    z-index: 1;
+  }

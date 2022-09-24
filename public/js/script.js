@@ -67,7 +67,7 @@ var btnSaveInjectInfo = document.getElementById("btnSaveInjectInfo");
 btnSaveInjectInfo.onclick = async function () {
     await setDoc(doc(db, "inject-record", dayOf.toString()), {
         day: dayOf,
-        time: new Date(),
+        time: dayjs(dayjs().format("YYYY-MM-DD") + txtInjectTime.value).toDate(),
         weight: parseFloat(txtWeight.value)
     });
 
