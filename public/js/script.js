@@ -11,10 +11,10 @@ const firebaseConfig = {
     appId: "1:286369200157:web:9def9ef4a7412aab652ef4"
 };
 
+//firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const injectRecord = collection(db, "inject-record");
-
 
 var lblPosition = document.getElementById("lblPosition");
 var imgPosition = document.getElementById("imgPosition");
@@ -32,6 +32,13 @@ var dateStart = dayjs('2022-08-15');
 var today = dayjs();
 var dayOf = today.diff(dateStart, 'day') + 1;
 lblDayOf.textContent = dayOf;
+
+//progress bar
+const animal = document.querySelector('#js-animal');
+const progressBar = document.querySelector('#js-progressbar');
+const progressCat = dayOf/84*100;
+progressBar.setAttribute('value', progressCat);
+animal.style.setProperty('--move', progressCat + '%');
 
 var txtWeight = document.getElementById("txtWeight");
 var txtInjectTime = document.getElementById("txtInjectTime");

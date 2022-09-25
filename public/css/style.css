@@ -1,4 +1,4 @@
-.progress {
+.progressCat {
     position: relative;
     width: 100%;
     max-width: 480px;
@@ -9,7 +9,7 @@
     padding: 0;
     pointer-events: none;
   }
-  .progress progress {
+  .progressCat progress {
     position: relative;
     display: block;
     height: 20px;
@@ -18,25 +18,33 @@
     background-color: transparent;
     -webkit-appearance: none;
   }
-  .progress ::-moz-progress-bar {
+  .progressCat ::-moz-progress-bar {
     background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
   }
-  .progress ::-webkit-progress-bar {
-    background-color: transparent;
+  .progressCat ::-webkit-progress-bar {
+    background-color: rgb(230, 230, 230);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
   }
-  .progress ::-webkit-progress-value {
+  .progressCat ::-webkit-progress-value {
     background-image: linear-gradient(132deg, #F4D03F 0%, #16A085 100%);
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
   }
-  .progress .animal {
+  .progressCat .animal {
     position: absolute;
     display: block;
-    top: -1.8rem;
-    left: calc(var(--move) - 2.3rem);
+    top: -1.33rem;
+    left: calc(var(--move) - 2.1rem);
     transform: scaleX(-1);
-    font-size: 4rem;
+    font-size: 2.2rem;
     z-index: 1;
   }
