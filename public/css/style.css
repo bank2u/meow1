@@ -52,9 +52,9 @@
   .progressCat .flag {
     position: absolute;
     display: block;
-    top: -0.8rem;
+    top: -1.1rem;
     left: calc(var(--move) - 2.1rem);
     transform: scaleX(1);
-    font-size: 2.1rem;
+    font-size: 1.3rem;
     z-index: 1;
   }

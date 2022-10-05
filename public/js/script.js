@@ -40,7 +40,7 @@ const progressBar = document.querySelector('#js-progressbar');
 const progressCat = dayOf/84*100;
 progressBar.setAttribute('value', progressCat);
 animal.style.setProperty('--move', progressCat + '%');
-flag.style.setProperty('--move', '107%');
+flag.style.setProperty('--move', '102%');
 
 var txtWeight = document.getElementById("txtWeight");
 var txtInjectTime = document.getElementById("txtInjectTime");
