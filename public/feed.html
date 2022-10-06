@@ -45,7 +45,7 @@
         </label>
       </div>
       <div class="form-check ms-2">
-        <input class="form-check-input" type="radio" name="foodTypeRadio" id="rbWet" value="wet" >
+        <input class="form-check-input" type="radio" name="foodTypeRadio" id="rbWet" value="wet">
         <label class="form-check-label bg-info" for="rbWet">
           อาหารเปียก
         </label>
@@ -68,38 +68,19 @@
     </div>
   </div>
 
-  
-
-
   <div id="divDisplaySummary" class="row p-2 justify-content-center">
     <div class="col-lg-2 col-sm-2 p-2">
       <label for="txtWeight">Summary</label>
-      <h1 class="text-center"><span id="lblDryResult" class="badge bg-warning text-dark fs-1">test</span></h1>
-      <h1 class="text-center"><span id="lblWetResult" class="badge bg-info text-dark fs-1">test</span></h1>
+      <span id="lblDryResult" class="badge bg-warning text-dark fs-1">0</span>
+      <span id="lblWetResult" class="badge bg-info text-dark fs-1">0</span>
     </div>
   </div>
 
   <hr>
-  <!-- ++++++++++++++++++ -->
-  <!--  Modal Section -->
-  <!-- ++++++++++++++++++ -->
-  <div class="modal fade" id="mdConfirmInject" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="row p-2">
-            <span id="lblModalConfirmMsg"></span>
-          </div>
-          <div class="row p-2">
-            <p><label for="txtInjectTime">Time: </label> <input class="form-control" id="txtInjectTime" type="time"
-                id="appt" name="appt" min="09:00" max="18:00"></p>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" id="btnSaveInjectInfo" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
+
+  <div class="row p-2 justify-content-center">
+    <div id="divFeedLog" class="col-lg-2 col-sm-2 p-2">
+      
     </div>
   </div>
 
@@ -109,7 +90,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.5/dayjs.min.js"
     integrity="sha512-Ot7ArUEhJDU0cwoBNNnWe487kjL5wAOsIYig8llY/l0P2TUFwgsAHVmrZMHsT8NGo+HwkjTJsNErS6QqIkBxDw=="
     crossorigin="anonymous"></script>
-  <script type="module" src="js/feed.js"></script>
+  <script type="module" src="js/feed.js?v=1"></script>
 </body>
 
 </html>

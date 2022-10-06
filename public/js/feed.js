@@ -19,6 +19,14 @@ const txtWeight = document.getElementById('txtWeight');
 const txtFeeder = document.getElementById('txtFeeder');
 const btnSaveWeight = document.getElementById('btnSaveWeight');
 
+document.addEventListener('DOMContentLoaded', function () {
+    getFeedHistory();
+    txtFeeder.value = getCookie('feeder');
+}, false);
+
+txtFeeder.addEventListener('keyup', (event) => {
+    setCookie('feeder', txtFeeder.value);
+});
 
 btnSaveWeight.onclick = async function () {
     const weightRecord = collection(db, "weight-record");
@@ -28,20 +36,72 @@ btnSaveWeight.onclick = async function () {
         date: new Date(),
         weight: parseFloat(txtWeight.value)
     });
+    txtWeight.value = 0;
 
-    getFeedHistory(weightRecord);
+    getFeedHistory();
 };
 
-async function getFeedHistory(weight) {
+async function getFeedHistory() {
     const weightRecord = collection(db, "weight-record");
+    const divFeedLog = document.getElementById('divFeedLog');
+    divFeedLog.innerHTML = '';
+
     var todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
-    // todayDate.setDate(todayDate.getDate() - 1);
 
-    const q1 = query(weightRecord, where("feeder", "==", 'bank'));
-    const q2 = query(q1, where("date", ">", todayDate));
+    const q2 = query(weightRecord, where("date", ">", todayDate));
 
-    const querySnapshot1 = await getDocs(q1);
-    const querySnapshot2 = await getDocs(q2);
-    console.log(querySnapshot2.docs[0].data());
+    const querySnapshot = await getDocs(q2);
+    var wetSum = 0;
+    var drySum = 0;
+
+    querySnapshot.forEach((doc) => {
+        let docData = doc.data();
+
+        const date = dayjs(docData.date.toDate()).format("DD/MMM/YYYY HH:mm");
+        const feeder = docData.feeder.toString();
+        const fType = docData.type.toString();
+        const weight = parseFloat(docData.weight);
+
+        if (fType == 'dry')
+            drySum += weight;
+        else
+            wetSum += weight;
+
+        divFeedLog.innerHTML += '<div class="row">' + date + ' | ' + feeder + ' | ' + fType + ' | ' + weight.toString(); + 'g </div>';
+    });
+
+    const lblWet = document.getElementById('lblWetResult');
+    const lblDry = document.getElementById('lblDryResult');
+    lblWet.textContent = wetSum.toString();
+    lblDry.textContent = drySum.toString();
 }
+
+
+// ++++++++++ Cookie Section ++++++++++ 
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+// ++++++++++ END Cookie Section ++++++++++ 
