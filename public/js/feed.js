@@ -21,11 +21,12 @@ const btnSaveWeight = document.getElementById('btnSaveWeight');
 
 document.addEventListener('DOMContentLoaded', function () {
     getFeedHistory();
+    getYesterdayTotal();
     txtFeeder.value = getCookie('feeder');
 }, false);
 
 txtFeeder.addEventListener('keyup', (event) => {
-    setCookie('feeder', txtFeeder.value);
+    setCookie('feeder', txtFeeder.value, 31536000 );
 });
 
 btnSaveWeight.onclick = async function () {
@@ -41,27 +42,41 @@ btnSaveWeight.onclick = async function () {
     getFeedHistory();
 };
 
+async function getYesterdayTotal() {
+    var date = new Date();
+    date.setDate(date.getDate() - 1);
+    date.setHours(0, 0, 0, 0); // yesterday
+
+
+    var result = await queryFeedHistory(date);
+    var wet = result.filter(x => x.type == 'wet');
+    var dry = result.filter(x => x.type == 'dry');
+    var dryWeight = dry.reduce((total, obj) => obj.weight + total, 0);
+    var wetWeight = wet.reduce((total, obj) => obj.weight + total, 0);
+
+    dryWeight = dryWeight.toFixed(1);
+    wetWeight = wetWeight.toFixed(1);
+
+    const divYesterday = document.getElementById('divYesterday');
+    divYesterday.innerHTML = "Yesterday : Dry= " + dryWeight.toString() + "g. , Wet= " + wetWeight.toString() + "g.";
+}
+
 async function getFeedHistory() {
-    const weightRecord = collection(db, "weight-record");
     const divFeedLog = document.getElementById('divFeedLog');
-    divFeedLog.innerHTML = '';
+    divFeedLog.innerHTML = '<div class="row">+++ Today +++</div>';
 
     var todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
+    var result = await queryFeedHistory(todayDate);
 
-    const q2 = query(weightRecord, where("date", ">", todayDate));
-
-    const querySnapshot = await getDocs(q2);
     var wetSum = 0;
     var drySum = 0;
 
-    querySnapshot.forEach((doc) => {
-        let docData = doc.data();
-
-        const date = dayjs(docData.date.toDate()).format("DD/MMM/YYYY HH:mm");
-        const feeder = docData.feeder.toString();
-        const fType = docData.type.toString();
-        const weight = parseFloat(docData.weight);
+    result.forEach((doc) => {
+        const date = dayjs(doc.date.toDate()).format("DD/MMM/YYYY HH:mm");
+        const feeder = doc.feeder.toString();
+        const fType = doc.type.toString();
+        const weight = parseFloat(doc.weight);
 
         if (fType == 'dry')
             drySum += weight;
@@ -71,10 +86,24 @@ async function getFeedHistory() {
         divFeedLog.innerHTML += '<div class="row">' + date + ' | ' + feeder + ' | ' + fType + ' | ' + weight.toString(); + 'g </div>';
     });
 
+    drySum = drySum.toFixed(1);
+    wetSum = wetSum.toFixed(1);
+
     const lblWet = document.getElementById('lblWetResult');
     const lblDry = document.getElementById('lblDryResult');
     lblWet.textContent = wetSum.toString();
     lblDry.textContent = drySum.toString();
+}
+
+async function queryFeedHistory(date) {
+    var dateEnd = new Date(date.getTime());
+    dateEnd.setHours(23, 59, 59, 999);
+    const weightRecord = collection(db, "weight-record");
+    const q = query(weightRecord, where("date", ">", date));
+    const q2 = query(q, where("date", "<", dateEnd));
+
+    const querySnapshot = await getDocs(q2);
+    return querySnapshot.docs.map(doc => doc.data());
 }
 
 

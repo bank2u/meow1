@@ -23,7 +23,11 @@ var start = new Date(now.getFullYear(), 0, 0);
 var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
 var oneDay = 1000 * 60 * 60 * 24;
 var dayOfYear = Math.floor(diff / oneDay);
-var position = (dayOfYear % 6) + 1;
+var position = (dayOfYear % 6) + 3;
+
+if (position > 6)
+    position = position - 6;
+
 lblPosition.textContent = position;
 imgPosition.src = "./img/" + position + ".jpg";
 
