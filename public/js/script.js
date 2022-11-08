@@ -23,10 +23,10 @@ var start = new Date(now.getFullYear(), 0, 0);
 var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
 var oneDay = 1000 * 60 * 60 * 24;
 var dayOfYear = Math.floor(diff / oneDay);
-var position = (dayOfYear % 6) + 3;
+var position = (dayOfYear % 5) + 1;
 
-if (position > 6)
-    position = position - 6;
+if (position > 5)
+    position = position - 5;
 
 lblPosition.textContent = position;
 imgPosition.src = "./img/" + position + ".jpg";
@@ -41,7 +41,7 @@ lblDayOf.textContent = dayOf;
 const animal = document.querySelector('#js-animal');
 const flag = document.querySelector('#js-flag');
 const progressBar = document.querySelector('#js-progressbar');
-const progressCat = dayOf/84*100;
+const progressCat = dayOf/99*100;
 progressBar.setAttribute('value', progressCat);
 animal.style.setProperty('--move', progressCat + '%');
 flag.style.setProperty('--move', '102%');
@@ -53,7 +53,7 @@ txtWeight.onkeyup = function (e) {
     if (txtWeight.value.length != 0) {
 
         var weight = parseFloat(txtWeight.value);
-        var doseVolume = weight * 8 / 30;
+        var doseVolume = weight * 10 / 30;
         lblResult.textContent = doseVolume.toFixed(2);
     }
 };
